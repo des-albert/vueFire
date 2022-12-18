@@ -24,5 +24,4 @@
 
   const storePosts = useStorePosts()
 
-
 </script>
