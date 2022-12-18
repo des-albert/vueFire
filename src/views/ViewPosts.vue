@@ -1,15 +1,17 @@
 <template>
-  <Carousel 
-    v-slot="{ currentSlide }" 
-    timeout="5000"
-  >
-    <Slide v-for="(post, index) in storePosts.posts" :key="index">
-      <div v-show="currentSlide === index + 1">
-        <Post :post="post" />
-      </div>
-    </Slide>
+  <div class="container is-max-desktop px-2 py-4">
+    <Carousel 
+      v-slot="{ currentSlide }" 
+      timeout="5000"
+    >
+      <Slide v-for="(post, index) in storePosts.posts" :key="index">
+        <div v-show="currentSlide === index + 1">
+          <Post :post="post" />
+        </div>
+      </Slide>
 
-  </Carousel>
+    </Carousel>
+  </div>
 
 </template> 
 
