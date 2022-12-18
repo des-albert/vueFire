@@ -1,8 +1,16 @@
 <template>
   <div class="carousel">
-      <button @click="prevSlide" class="button is-info"><i class="fas fa-chevron-left"></i></button>  
+      <div class="columns is-vcentered">
+        <div class="column is-1 has-text-centered">
+          <button @click="prevSlide" class="button is-info"><i class="fas fa-chevron-left"></i></button>
+        </div>
+        <div class="column is-10">
         <slot :currentSlide="currentSlide" /> 
-      <button @click="nextSlide" class="button is-info"><i class="fas fa-chevron-right"></i></button> 
+        </div>
+        <div class="column is-1 has-text-centered">
+          <button @click="nextSlide" class="button is-info"><i class="fas fa-chevron-right"></i></button> 
+        </div>
+      </div>
   </div>
 
 </template>
@@ -10,16 +18,19 @@
 
 <script setup>
 
-  import { ref, onMounted } from 'vue'
+  import { ref } from 'vue'
   import { useStorePosts } from '@/stores/storePosts'
+  
+  const props = defineProps({
+    timeout: {}
+  })
 
   const storePosts = useStorePosts()
-  
+  const timeoutDuration = props.timeout
   const currentSlide = ref(1)
-  const slideCount = ref(null)
 
   const nextSlide = () => {
-    if(currentSlide.value === slideCount) {
+    if(currentSlide.value === storePosts.getPostCount) {
       currentSlide.value = 1
       return
     }
@@ -28,15 +39,19 @@
 
   const prevSlide = () => {
     if(currentSlide.value === 1 ) {
-      currentSlide.value = slideCount
+      currentSlide.value = storePosts.getPostCount
       return
     }
       currentSlide.value -= 1
   }
 
-  onMounted(() => {
-    slideCount.value = storePosts.getPosts()
-  })
-
+  const autoPlay = () => {
+    setInterval(() => {
+      nextSlide()
+    }, timeoutDuration)
+  }
+  
+  autoPlay()
+  
 </script>
 

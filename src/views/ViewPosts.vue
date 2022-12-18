@@ -1,5 +1,8 @@
 <template>
-  <Carousel v-slot="{ currentSlide }">
+  <Carousel 
+    v-slot="{ currentSlide }" 
+    timeout="5000"
+  >
     <Slide v-for="(post, index) in storePosts.posts" :key="index">
       <div v-show="currentSlide === index + 1">
         <Post :post="post" />

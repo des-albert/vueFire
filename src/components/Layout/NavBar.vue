@@ -6,7 +6,7 @@
   >
   <div class="container px-2">
         <div class="is-size-4">
-      <p has-text-centered>don't get me started on those cunts</p>
+      <p has-text-centered>dgmsotc</p>
     </div>
   </div>  
 

@@ -1,6 +1,6 @@
 <template>
   <div class="card">
-      <div class="card-image has-text-centered">
+      <div class="card-image is-4by3 has-text-centered">
         <img :src="post.url" />
       </div>
     
