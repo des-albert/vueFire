@@ -13,9 +13,12 @@
               <label class="label label has-text-left">Description</label>
               <input class="input is-primary" type="text" placeholder="Description" v-model="description">
             </div>
+            <div class="field">
             <DropZone @drop.prevent="drop" @change="selectedFile" />
+            <p v-show="showFile">File: {{ dropzoneFile.name }}</p>
 
             <progress v-show="showProgress" class="progress pt-3" :value="progress" max="100">{{ progress }}</progress>
+            </div>
             <div class="field pt-3">
               <button @click="addPost" class="button is-info">Submit</button>
             </div>
@@ -51,6 +54,7 @@
         errors: [],
         progress: 0,
         showProgress: false,
+        showFile: false,
         results: null,
         file: null,
 
@@ -63,15 +67,18 @@
 
       drop(event)   {
         this.dropzoneFile = event.dataTransfer.files[0]
+        this.showFile = true
       },
 
       selectedFile() {
         this.dropzoneFile = document.querySelector(".dropzoneFile").files[0]
+        this.showFile = true
       },
 
       async addPost() {
         this.file = this.dropzoneFile
-        let reader = new FileReader()
+        let reader = new FileReader() 
+        this.showProgress = true
         reader.addEventListener(
           'load',
           function() {
@@ -81,6 +88,7 @@
             this.formData.append('tags', this.tags)
             this.formData.append('file', this.fileContents)   
             let cloudinaryUploadURL = `https://api.cloudinary.com/v1_1/${this.cloudName}/upload`
+           
             let requestObj = {
               url: cloudinaryUploadURL,
               method: 'POST',
@@ -89,7 +97,7 @@
                 this.progress = Math.round((progressEvent.loaded * 100.0) / progressEvent.total)
               }.bind(this)
             }
-            this.showProgress = true
+            
             axios(requestObj)
               .then(response => {
                 this.results = response.data
@@ -107,6 +115,7 @@
                   1000
                 )
                 this.storePost(this.title, this.description, this.imageUrl)
+                this.showFile = false
               })
           }.bind(this),
             false

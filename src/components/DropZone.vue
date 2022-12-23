@@ -5,7 +5,7 @@
       @dragover.prevent
       @drop.prevent="toggleActive"
       :class="{ 'active-dropzone': active }"
-      class="dropzone is-flex-direction-column"
+      class="dropzone is-flex-direction-column is-"
     >
       <span>Drag or Drop File</span>
       <span>OR</span>
@@ -20,7 +20,6 @@ export default {
   data() {
     return {
       active: false,
-
     }
   },
   methods: {
@@ -36,9 +35,9 @@ export default {
 <style scoped lang="scss">
   .dropzone {  
     position: relative; 
+    width: 400px;
     height: 200px;
-    display: flex;
-    flex-direction: column;
+    display: inline-flex;
     justify-content: center;
     align-items: center;
     border: 2px dashed #41b883;
