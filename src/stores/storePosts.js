@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import { collection, doc, onSnapshot, query } from 'firebase/firestore'
+import { addDoc, collection, doc, onSnapshot, query } from 'firebase/firestore'
 
 import { db } from '@/js/firebase'
 
@@ -33,6 +33,16 @@ export const useStorePosts = defineStore('storePosts',  {
         this.posts = result
         this.postCount = result.length
 
+      })
+
+    },
+
+    async storePost(postTitle, postDesc, postUrl) {
+
+      await addDoc(postsCollectionRef, {
+        title: postTitle,
+        description: postDesc,
+        url: postUrl
       })
 
     }
