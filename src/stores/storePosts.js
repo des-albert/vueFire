@@ -53,8 +53,7 @@ export const useStorePosts = defineStore('storePosts',  {
     async updatePost(id, postTitle, postDesc) {
       await updateDoc(doc(postsCollectionRef, id), {
         title: postTitle,
-        description: postDesc
-       
+        description: postDesc       
       })
     }
   },
@@ -69,6 +68,5 @@ export const useStorePosts = defineStore('storePosts',  {
       }
     }
   }
-
  
 })
