@@ -1,8 +1,8 @@
 <template>
   <div class="card">
       <div class="card-image has-text-centered">
-        <figure class="image">
-        <img :src="post.url" />
+        <figure @click.native="goToPost(post.id)" class="image">
+          <img :src="post.url" />
         </figure>
       </div>
     
@@ -16,10 +16,25 @@
 
 
 <script setup>
+  import { useRoute, useRouter } from 'vue-router'
   const props = defineProps({
     post: {
       type: Object,
       required: true
     }
   })
+
+  const route = useRoute()
+  const router = useRouter()
+
+  const goToPost = (id) => {
+ 
+    router.push({
+      name: 'editPost',
+      params: {
+        id
+      }
+    })
+
+  }
 </script>

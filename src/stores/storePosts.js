@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import { addDoc, collection, doc, onSnapshot, query } from 'firebase/firestore'
+import { addDoc, collection, deleteDoc, doc, onSnapshot, query, updateDoc } from 'firebase/firestore'
 
 import { db } from '@/js/firebase'
 
@@ -45,11 +45,28 @@ export const useStorePosts = defineStore('storePosts',  {
         url: postUrl
       })
 
+    },
+    async deletePost(idToDelete) {
+      await deleteDoc(doc(postsCollectionRef, idToDelete))
+    },
+
+    async updatePost(id, postTitle, postDesc) {
+      await updateDoc(doc(postsCollectionRef, id), {
+        title: postTitle,
+        description: postDesc
+       
+      })
     }
   },
   getters: {
     getPostCount: (state) => {
       return state.postCount
+    },
+
+    getPostContent: (state) => {
+      return(id) => {
+        return state.posts.filter(post => post.id === id)[0]
+      }
     }
   }
 
