@@ -14,9 +14,11 @@
               <input class="input is-primary" type="text" placeholder="Description" v-model="description">
             </div>
             <div class="field">
-            <DropZone @drop.prevent="drop" @change="selectedFile" />
-            <p v-show="showFile">File: {{ dropzoneFile.name }}</p>
-
+            <DropZone v-show="!showFile" @drop.prevent="drop" @change="selectedFile" />
+            <div v-show="showFile">
+              <p>File: {{ dropzoneFile.name }}</p>
+                <img :src="imageUrl" width="256" />
+            </div>
             <progress v-show="showProgress" class="progress pt-3" :value="progress" max="100">{{ progress }}</progress>
             </div>
             <div class="field pt-3">
@@ -65,13 +67,27 @@
 
       ...mapActions(useStorePosts, ["storePost"] ),
 
+      showImage() {
+        this.file = this.dropzoneFile
+        let reader = new FileReader() 
+        reader.addEventListener(
+          'load',
+          () => {
+            this.imageUrl = reader.result
+          })
+        reader.readAsDataURL(this.file)
+
+      },
+
       drop(event)   {
         this.dropzoneFile = event.dataTransfer.files[0]
+        this.showImage()
         this.showFile = true
       },
 
       selectedFile() {
         this.dropzoneFile = document.querySelector(".dropzoneFile").files[0]
+        this.showImage()
         this.showFile = true
       },
 
